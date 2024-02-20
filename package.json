@@ -1,0 +1,15 @@
+{
+    "scripts": {
+    "start": "node server.js"
+  },
+  "name": "social-network-api",
+  "description": "NoSQL Challenge: Social Network API",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "FirefoxFlareon",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.1.3"
+  }
+}
