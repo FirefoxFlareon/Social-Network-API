@@ -50,5 +50,5 @@
   ## Questions
   
   Have questions about this project? Contact me!
-  Email me at: tshankgg@gmail.com,
-  or find me on GitHub here: https://github.com/FirefoxFlareon
+  <br/> Email me at: tshankgg@gmail.com,
+  <br/> or find me on GitHub here: https://github.com/FirefoxFlareon
