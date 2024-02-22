@@ -1,11 +1,11 @@
-const { User, Student } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
   // Get all Users
-  async getUser(req, res) {
+  async getUsers(req, res) {
     try {
-      const user = await User.find();
-      res.json(user);
+      const users = await User.find();
+      res.json(users);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -21,4 +21,100 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-}
+
+  // Get single user
+  async getSoloUser(req, res) {
+    try {
+      const user = await User.findOne({ _id: req.params.userId })
+      .populate('thoughts')
+      .populate('friends');
+
+      if (!user) {
+        res.status(404).json({ message: 'User Id not found'});
+        return;
+      }
+
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // Update a user
+  async updateUser(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        {_id: req.params.userId},
+        {$set: req.body},
+        {new: true}
+      );
+
+      if (!user) {
+        res.status(404).json({ message: 'User Id not found'});
+        return;
+    }
+
+    res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // Delete a user
+  async deleteUser(req, res) {
+    try {
+      const user = await User.findOneAndDelete(
+        {_id: req.params.userId}
+      );
+
+      if (!user) {
+        res.status(404).json({ message: 'User Id not found'});
+        return;
+    }
+
+    res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // Add a friend
+  async addFriend(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        {_id: req.params.userId},
+        {$addToSet: {friends: req.body.friendId}},
+        {new: true}
+      );
+
+      if (!user) {
+        res.status(404).json({ message: 'User Id not found'});
+        return;
+    }
+
+    res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // Delete a friend
+  async deleteFriend(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        {_id: req.params.userId},
+        {$pull: {friends: req.body.friendId}},
+        {new: true}
+      );
+
+      if (!user) {
+        res.status(404).json({ message: 'User Id not found'});
+        return;
+    }
+
+    res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+};
